@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "sd-playground"
+  site-url: "https://pablo-unzueta.github.io/sd-playground"
+  description: "score dynamics playground"
+  repo-branch: main
+  repo-url: "https://github.com/pablo-unzueta/sd-playground"
