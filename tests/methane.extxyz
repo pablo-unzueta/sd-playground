@@ -1,0 +1,7 @@
+5
+methane from NIST https://cccbdb.nist.gov/energy3x.asp?method=1&basis=20&charge=0
+C 0.000	0.000	0.000
+H 0.625	0.625	0.625
+H -0.625	-0.625	0.625
+H -0.625	0.625	-0.625
+H 0.625	-0.625	-0.625
