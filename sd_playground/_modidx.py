@@ -5,4 +5,6 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://pablo-unzueta.github.io',
                 'git_url': 'https://github.com/pablo-unzueta/sd-playground',
                 'lib_path': 'sd_playground'},
-  'syms': {'sd_playground.core': {'sd_playground.core.foo': ('core.html#foo', 'sd_playground/core.py')}}}
+  'syms': { 'sd_playground.AtomsToGraph': { 'sd_playground.AtomsToGraph.generate_onehot_features': ( 'atomstograph.html#generate_onehot_features',
+                                                                                                     'sd_playground/AtomsToGraph.py')},
+            'sd_playground.core': {'sd_playground.core.foo': ('core.html#foo', 'sd_playground/core.py')}}}
