@@ -8,8 +8,10 @@ from ase.io import read, write
 from ase import Atoms
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
+import torch
+import torch_geometric
 
-# %% ../nbs/00_AtomsToGraph.ipynb 6
+# %% ../nbs/00_AtomsToGraph.ipynb 8
 def generate_onehot_features(symbols):
     """Generate one-hot features for a list of atom symbols.
 
