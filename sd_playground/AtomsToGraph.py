@@ -13,7 +13,7 @@ import torch_geometric
 
 # %% ../nbs/00_AtomsToGraph.ipynb 8
 def generate_onehot_features(symbols: list # atom symbols
-                             ) -> np.ndarray: 
+                             ) -> np.ndarray: # [M, N] where M is the number of atoms, and N is the number of unique atom symbols
     """Generate one-hot features for a list of atom symbols.
     """
     symbols = np.array(symbols).reshape(-1, 1) # Convert List to 2D array with N rows and 1 column
