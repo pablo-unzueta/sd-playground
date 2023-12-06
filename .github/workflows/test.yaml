@@ -5,7 +5,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps: 
-      - uses: pablo-unzueta/workflows/nbdev-ci-sd
+      - uses: pablo-unzueta/workflows/nbdev-ci-sd@main
         with: 
           version: "3.10"
 
