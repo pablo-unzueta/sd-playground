@@ -43,6 +43,7 @@ class ScoreDynamicsDataset(InMemoryDataset):
                  pre_transform=None, # applices transformation before saving to disk (e.g. best used for heavy precomputations)
                  pre_filter=None # filter out data objects before saving to disk
                  ):
+         
          self.cutoff = cutoff
          self.max_num_neighbors = max_num_neighbors
          super().__init__(root, transform, pre_transform, pre_filter)
