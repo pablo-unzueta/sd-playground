@@ -9,8 +9,8 @@ jobs:
       - uses: actions/setup-python@v4
         name: Set up Python
         with:
-          python-version: "3.9"
+          python-version: "3.10"
       - name: Install torch first
         run: pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
       - name: Install repo
-        run: pip install -e '.[dev]' --extra-index-url https://download.pytorch.org/whl/cpu
+        run: pip install -e '.[dev]' --extra-index-url https://data.pyg.org/whl/torch-2.1.0%2Bcpu/torch_cluster-1.6.3%2Bpt21cpu-cp310-cp310-linux_x86_64.whl
