@@ -13,4 +13,4 @@ jobs:
       - name: Install torch first
         run: pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
       - name: Install repo
-        run: pip install -e '.[dev]' --extra-index-url https://download.pytorch.org/whl/cpu
+        run: pip install -e .
