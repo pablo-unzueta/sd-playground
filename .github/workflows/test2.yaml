@@ -12,6 +12,8 @@ jobs:
           python-version: "3.10"
       - name: Install torch first
         run: pip3 install torch
+      - name: Install scipy
+        run: pip install scipy
       - name: Install torch-cluster
         run: pip install --verbose --no-index torch-cluster==1.6.3+pt21cu121 -f https://data.pyg.org/whl/torch-2.1.0+cu121.html 
       # - name: Install repo
