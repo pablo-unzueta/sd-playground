@@ -43,5 +43,20 @@ def bessel_features(distances, # Torch tensor of distances
     return (2/c)**0.5 * torch.sin(bessel_roots * distances / c) / distances
 
 # %% ../nbs/01_basis.ipynb 12
-def GaussianRandomFourierFeatures():
-    raise NotImplementedError
+class GaussianRandomFourierFeatures(torch.nn.Module):
+    """Gaussian random Fourier features from the paper titled
+    'Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains'.
+    Reference: https://arxiv.org/abs/2006.10739
+    """
+    def __init__(self, 
+                 embed_dim, # Embedding dimension. B gets cut in half because GRFF is a concat of cos and sin
+                 input_dim=1, # Input dimension
+                 sigma=1.0 # variance
+                 ):
+        super().__init__()
+        # Randomly sample weights during initialization. These weights are fixed
+        # during optimization and are not trainable.
+        self.B = torch.nn.Parameter(torch.randn(input_dim, embed_dim//2) * sigma, requires_grad=False)
+    def forward(self, v):
+        v_proj =  2 * torch.pi * v * self.B
+        return torch.cat([torch.cos(v_proj), torch.sin(v_proj)], dim=-1)
