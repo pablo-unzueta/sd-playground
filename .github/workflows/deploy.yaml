@@ -11,4 +11,4 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps: [uses: pablo-unzueta/workflows/quartro-ghp@master]
+    steps: [uses: pablo-unzueta/workflows/quartro-ghp@main]
