@@ -12,5 +12,7 @@ jobs:
           python-version: "3.10"
       - name: Install torch first
         run: pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
+      - name: Install torch cluster
+        run: pip install torch-cluster --extra-index-url https://data.pyg.org/whl/torch-2.1.0%2Bcpu/torch_cluster-1.6.3%2Bpt21cpu-cp310-cp310-linux_x86_64.whl
       - name: Install repo
-        run: pip install -e '.[dev]' --extra-index-url https://data.pyg.org/whl/torch-2.1.0%2Bcpu/torch_cluster-1.6.3%2Bpt21cpu-cp310-cp310-linux_x86_64.whl
+        run: pip install -e '.[dev]' 
