@@ -13,6 +13,6 @@ jobs:
       - name: Install torch first
         run: pip install torch --extra-index-url https://download.pytorch.org/whl/cpu
       - name: Install torch cluster
-        run: pip install --verbose --no-index torch-cluster -f https://data.pyg.org/whl/torch-2.0.0+cu117.html 
+        run: pip install --verbose --no-index torch-cluster -f https://download.pytorch.org/whl/cpu   
       - name: Install repo
         run: pip install -e '.[dev]' 
