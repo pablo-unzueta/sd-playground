@@ -33,4 +33,5 @@ d = { 'settings': { 'branch': 'main',
                                      'sd_playground.basis.GaussianSmearing.forward': ( 'basis.html#gaussiansmearing.forward',
                                                                                        'sd_playground/basis.py'),
                                      'sd_playground.basis.bessel_features': ('basis.html#bessel_features', 'sd_playground/basis.py')},
-            'sd_playground.core': {'sd_playground.core.foo': ('core.html#foo', 'sd_playground/core.py')}}}
+            'sd_playground.core': {'sd_playground.core.foo': ('core.html#foo', 'sd_playground/core.py')},
+            'sd_playground.nn': {}}}

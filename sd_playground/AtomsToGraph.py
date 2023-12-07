@@ -34,13 +34,15 @@ class OneHotAtomSymbols:
         return self.enc.transform(np.array(symbols).reshape(-1, 1))
 
 # %% ../nbs/00_AtomsToGraph.ipynb 13
-class ScoreDynamicsDataset(InMemoryDataset):
+class ScoreDynamicsDataset(InMemoryDataset #
+                ):
+
     def __init__(self,
                  root, # folder where the dataset should be stored. Splits into raw_dir and processed_dir
                  cutoff=5.0, # cutoff radius for the neighbor list
                  max_num_neighbors=50, # maximum number of neighbors for each atom
                  transform=None, # dynamically transforms the data object before accessing (e.g. data augmentation)
-                 pre_transform=None, # applices transformation before saving to disk (e.g. best used for heavy precomputations)
+                 pre_transform=None, # applies transformation before saving to disk (e.g. best used for heavy precomputations)
                  pre_filter=None # filter out data objects before saving to disk
                  ):
          
@@ -67,7 +69,7 @@ class ScoreDynamicsDataset(InMemoryDataset):
             data["x"] = torch.Tensor(atoms[i].get_atomic_numbers())
             data["symbols"] = atoms[i].get_chemical_symbols()
             # data["num_nodes"] = atoms[i].get_global_number_of_atoms()
-            data["pos"] = torch.Tensor(read_atoms[i].get_positions())
+            data["pos"] = torch.Tensor(atoms[i].get_positions())
             
             # Connectivity
             data["edge_index"] = radius_graph(data["pos"], r=self.cutoff, batch=None, loop=True, max_num_neighbors=self.max_num_neighbors)
@@ -76,16 +78,20 @@ class ScoreDynamicsDataset(InMemoryDataset):
             distances = Distance(norm=False, cat=False)(data)["edge_attr"]
             data["edge_attr"] = gaussian_basis(distances).squeeze(1) # squeeze removes singleton dimension
 
+            # Add forces if present in the xyz file
+            if "forces" in atoms[i].arrays.keys():
+                data["forces"] = atoms[i].get_forces()
+
             data["y"] = []
             data["structure_id"] = i
             data_list.append(data)
 
-            unique_atoms = list(set(read_atoms[i].get_chemical_symbols()))
+            unique_atoms = list(set(atoms[i].get_chemical_symbols()))
             for atom in unique_atoms:
                 if atom not in all_unique_atoms:
                     all_unique_atoms.append(atom)
 
-        # Conver Atomic Numbers to One-Hot Features
+        # Convert Atomic Numbers to One-Hot Features
         self.unique_atoms = all_unique_atoms
         one_hot_features = OneHotAtomSymbols(self.unique_atoms)
         for data in data_list:
