@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "atomstograph.html",
+    "href": "atomstograph.html",
+    "title": "AtomsToGraph",
+    "section": "",
+    "text": "Read in an extxyz using ASE’s read function\n\nread_atoms = read(\"../tests/methane.extxyz\")\nprint(read_atoms)\nprint(read_atoms.get_positions())\nprint(read_atoms.get_chemical_symbols())\n\nAtoms(symbols='CH4', pbc=False)\n[[ 0.     0.     0.   ]\n [ 0.625  0.625  0.625]\n [-0.625 -0.625  0.625]\n [-0.625  0.625 -0.625]\n [ 0.625 -0.625 -0.625]]\n['C', 'H', 'H', 'H', 'H']\n\n\n\nsource\n\n\n\n OneHotAtomSymbols (symbols:list)\n\nGenerate one-hot features for a list of atom symbols.\n\n\n\n\n\n\n\n\n\nType\nDetails\n\n\n\n\nsymbols\nlist\natom symbols\n\n\nReturns\nndarray\n[M, N] where M is the number of atoms, and N is the number of unique atom symbols"
+  },
+  {
+    "objectID": "atomstograph.html#ase-file-io",
+    "href": "atomstograph.html#ase-file-io",
+    "title": "AtomsToGraph",
+    "section": "",
+    "text": "Read in an extxyz using ASE’s read function\n\nread_atoms = read(\"../tests/methane.extxyz\")\nprint(read_atoms)\nprint(read_atoms.get_positions())\nprint(read_atoms.get_chemical_symbols())\n\nAtoms(symbols='CH4', pbc=False)\n[[ 0.     0.     0.   ]\n [ 0.625  0.625  0.625]\n [-0.625 -0.625  0.625]\n [-0.625  0.625 -0.625]\n [ 0.625 -0.625 -0.625]]\n['C', 'H', 'H', 'H', 'H']\n\n\n\nsource\n\n\n\n OneHotAtomSymbols (symbols:list)\n\nGenerate one-hot features for a list of atom symbols.\n\n\n\n\n\n\n\n\n\nType\nDetails\n\n\n\n\nsymbols\nlist\natom symbols\n\n\nReturns\nndarray\n[M, N] where M is the number of atoms, and N is the number of unique atom symbols"
+  },
+  {
+    "objectID": "atomstograph.html#one-hot-encoding",
+    "href": "atomstograph.html#one-hot-encoding",
+    "title": "AtomsToGraph",
+    "section": "One Hot Encoding",
+    "text": "One Hot Encoding\nInstead of atom symbols, we use one hot encoding to discretize atom types\n\none_hot_features = OneHotAtomSymbols(atom_symbols)\none_hot_features(atom_symbols)\n\narray([[1., 0.],\n       [0., 1.],\n       [0., 1.],\n       [0., 1.],\n       [0., 1.]])\n\n\n\nsource\n\nScoreDynamicsDataset\n\n ScoreDynamicsDataset (root, cutoff=5.0, max_num_neighbors=50,\n                       transform=None, pre_transform=None,\n                       pre_filter=None)\n\nDataset base class for creating graph datasets which easily fit into CPU memory. See here &lt;https://pytorch-geometric.readthedocs.io/en/latest/tutorial/ create_dataset.html#creating-in-memory-datasets&gt;__ for the accompanying tutorial.\nArgs: root (str, optional): Root directory where the dataset should be saved. (optional: :obj:None) transform (callable, optional): A function/transform that takes in a :class:~torch_geometric.data.Data or :class:~torch_geometric.data.HeteroData object and returns a transformed version. The data object will be transformed before every access. (default: :obj:None) pre_transform (callable, optional): A function/transform that takes in a :class:~torch_geometric.data.Data or :class:~torch_geometric.data.HeteroData object and returns a transformed version. The data object will be transformed before being saved to disk. (default: :obj:None) pre_filter (callable, optional): A function that takes in a :class:~torch_geometric.data.Data or :class:~torch_geometric.data.HeteroData object and returns a boolean value, indicating whether the data object should be included in the final dataset. (default: :obj:None) log (bool, optional): Whether to print any console output while downloading and processing the dataset. (default: :obj:True)\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nroot\n\n\nfolder where the dataset should be stored. Splits into raw_dir and processed_dir\n\n\ncutoff\nfloat\n5.0\ncutoff radius for the neighbor list\n\n\nmax_num_neighbors\nint\n50\nmaximum number of neighbors for each atom\n\n\ntransform\nNoneType\nNone\ndynamically transforms the data object before accessing (e.g. data augmentation)\n\n\npre_transform\nNoneType\nNone\napplies transformation before saving to disk (e.g. best used for heavy precomputations)\n\n\npre_filter\nNoneType\nNone\nfilter out data objects before saving to disk"
+  },
+  {
+    "objectID": "atomstograph.html#do-not-skip-creating-inmemory-dataset.",
+    "href": "atomstograph.html#do-not-skip-creating-inmemory-dataset.",
+    "title": "AtomsToGraph",
+    "section": "Do Not Skip: Creating InMemory dataset.",
+    "text": "Do Not Skip: Creating InMemory dataset.\nIn order to create an ScoreDynamicsDataset, one needs to set up a data directory with two subdirectores: raw and processed. Inside raw, place the ase .extxyz file called “data.extxyz”. Then pass that data directory to the ScoreDynamicsDataset. Torch-Geometric Handles the rest\n\ndataset = ScoreDynamicsDataset(root=\"../data_path\")\n\nProcessing...\nDone!\n\n\n\nfig, ax = plt.subplots()\nfor i in range(dataset[0].edge_attr.shape[0]):\n    ax.plot(dataset[0].edge_attr[i,:].numpy(), label=f\"{i}\")\nax.legend(ncol=5)\nax.set_title(\"Gaussian Basis Functions For Methane Distances\")\n\nText(0.5, 1.0, 'Gaussian Basis Functions For Methane Distances')"
+  },
+  {
+    "objectID": "basis.html",
+    "href": "basis.html",
+    "title": "basis",
+    "section": "",
+    "text": "source\n\nGaussianSmearing\n\n GaussianSmearing (start=0.0, stop=1.0, num_basis=8)\n\nConvert Scalar distances into Gaussian basis functions\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nstart\nfloat\n0.0\nStart of Gaussian basis functions\n\n\nstop\nfloat\n1.0\nstop of the Gaussian basis functions\n\n\nnum_basis\nint\n8\nNumber of Gaussian basis functions\n\n\n\nYou can get gaussian features from scalar distances by calling the GaussianSmearing Class\n\nmethane_distances = torch.Tensor([[0.        , 1.08253175, 1.08253175 ,1.08253175 ,1.08253175],\n [1.08253175, 0.        , 1.76776695, 1.76776695, 1.76776695],\n [1.08253175, 1.76776695, 0.        , 1.76776695, 1.76776695],\n [1.08253175, 1.76776695, 1.76776695, 0.        , 1.76776695],\n [1.08253175, 1.76776695, 1.76776695, 1.76776695, 0.        ]]\n) # these are the distances from the methane example in atoms to graphs\ngaussian_smearing = GaussianSmearing(num_basis=8)\ng_features = gaussian_smearing(methane_distances)\n\nView them just to make sure. By symmetry, hydrogens have all the same features.\n\nimport matplotlib.pyplot as plt\n\ndistances = torch.linspace(-0.5, 1.5, 100) # view from -0.5 to 1.5 in 100 steps\ngaussian_smearing = GaussianSmearing(num_basis=8)\ng_features = gaussian_smearing(distances) # g_features is a tensor of shape (100, 4)\n\nfig, ax = plt.subplots()\nfor i in range(g_features.shape[1]):\n    ax.plot(distances, g_features[:,i], label=f'Gaussian {i}')\nax.legend()\n\n&lt;matplotlib.legend.Legend at 0x7f0580e76eb0&gt;\n\n\n\n\n\n\nsource\n\n\nbessel_features\n\n bessel_features (distances, start=0.0, stop=1.0, eps=1e-05, num_basis=4)\n\nConvert Scalar distances into Bessel basis functions\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\ndistances\n\n\nTorch tensor of distances\n\n\nstart\nfloat\n0.0\n\n\n\nstop\nfloat\n1.0\n\n\n\neps\nfloat\n1e-05\n\n\n\nnum_basis\nint\n4\nNumber of Bessel basis functions\n\n\n\n\ndistances = torch.linspace(-0.5, 1.5, 100) # view from -0.5 to 1.5 in 100 steps\nfeatures = bessel_features(distances, start=-0.5, stop=1.5, num_basis=4) # calculate bessel features\n# features is of shape  [100, 4] # steps from linspace and num_basis\nfig, ax = plt.subplots()\nfor i in range(features.shape[1]):\n    ax.plot(distances, features[:,i], label=f'Bessel {i}')\nax.legend()\n\n&lt;matplotlib.legend.Legend&gt;\n\n\n\n\n\n\nsource\n\n\nGaussianRandomFourierFeatures\n\n GaussianRandomFourierFeatures (embed_dim, input_dim=1, sigma=1.0)\n\nGaussian random Fourier features from the paper titled ‘Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains’. Reference: https://arxiv.org/abs/2006.10739\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nembed_dim\n\n\nEmbedding dimension. B gets cut in half because GRFF is a concat of cos and sin\n\n\ninput_dim\nint\n1\nInput dimension\n\n\nsigma\nfloat\n1.0\nvariance\n\n\n\nGaussianRandomFourierFeatures won’t look like much when plotted since they are being randomly sampled from a gaussian distribution and then being multiplied by Cos/Sin. However, we can view them just to make sure.\n\ngrff = GaussianRandomFourierFeatures(embed_dim=128, input_dim=1)\nv = torch.linspace(-0.5, 6.5, 64)\nvalues = grff(v)\nfig, (ax1, ax2) = plt.subplots(1, 2, sharey=True, figsize=(10, 5))\nax1.plot(v, values[0][0:64], c='C0', label=\"GRFF Cos\")\nax1.plot(v, torch.cos(2 * torch.pi * v), label='Cos', c='C0', ls=\"dotted\")\nax2.plot(v, values[0][64:128], c='C1', label=\"GRFF Sin\")\nax2.plot(v, torch.sin(2 * torch.pi * v), label='Sin', c='C1', ls=\"dotted\")\nfig.legend()\n\n&lt;matplotlib.legend.Legend&gt;"
+  },
+  {
+    "objectID": "nn.html",
+    "href": "nn.html",
+    "title": "nn",
+    "section": "",
+    "text": "class ScoreDynamicsDiffuser:\n    def __init__(self, sigma_scale=1.0, schedule='linear', t_min=1e-3):\n        self.schedule = schedule\n        self.t_min = t_min\n        self.sigma_scale = sigma_scale\n\n        if schedule == 'linear':\n            beta_0, beta_1 = 0.1, 20\n            self.t_max     = 1\n            self.gamma_t   = lambda t: torch.exp(-(beta_0*t/2+t.pow(2)/4*(beta_1-beta_0)))\n            self.t_lambda  = lambda lmd: 2*torch.log(torch.exp(-2*lmd)+1)/(torch.sqrt(\\\n                beta_0**2 + (beta_1-beta_0)*2*torch.log(torch.exp(-2*lmd)+1)) + beta_0)\n        else:\n            raise NotImplementedError(f'Unknown noise schedule {schedule}')\n\n        self.sigma_t    = lambda t: torch.sqrt(1-self.gamma_t(t)**2)\n        self.lambda_t   = lambda t: torch.log(self.gamma_t(t)/self.sigma_t(t))\n        self.lambda_min = self.lambda_t(torch.tensor(self.t_min)).item()\n        self.lambda_max = self.lambda_t(torch.tensor(self.t_max)).item()"
+  },
+  {
+    "objectID": "nn.html#linear-noise-schedule-paper-alpha_tau-sigma_tau",
+    "href": "nn.html#linear-noise-schedule-paper-alpha_tau-sigma_tau",
+    "title": "nn",
+    "section": "Linear Noise Schedule paper \\[ (\\alpha_{\\tau}, \\sigma_{\\tau}) \\]",
+    "text": "Linear Noise Schedule paper \\[ (\\alpha_{\\tau}, \\sigma_{\\tau}) \\]\n\nNeed to look at the paper some more. Appendex B of paper has more info\n\\[ log \\gamma_\\tau= - \\frac{\\beta_1 - \\beta_0}{2}\\tau^{2} - \\beta_0\\tau\\] \\[ \\alpha_{\\tau} = b \\sqrt{\\gamma_{\\tau}} \\] \\[ \\sigma_{\\tau} = \\sqrt{1 - \\gamma_{\\tau}}\\]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "sd-playground",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation."
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "sd-playground",
+    "section": "Install",
+    "text": "Install\npip install sd_playground"
+  },
+  {
+    "objectID": "index.html#create-a-scoredynamicsdataset-from-an-ase-.extxyz-file",
+    "href": "index.html#create-a-scoredynamicsdataset-from-an-ase-.extxyz-file",
+    "title": "sd-playground",
+    "section": "Create a ScoreDynamicsDataset from an ASE .extxyz file",
+    "text": "Create a ScoreDynamicsDataset from an ASE .extxyz file\nSample .extxyz file\n6\nProperties=species:S:1:pos:R:3:forces:R:3 energy=-77.72277796 pbc=\"F F F\"\nC       -4.39717532       0.45862809       0.21702657      -0.18151511       0.05850097       0.13081778\nC       -2.94286277       0.05608291      -0.18477177      -0.16020996      -0.23942713       0.03291429\nH       -5.21669565       0.88484577       0.64266869       0.05071129      -0.05380770      -0.03889682\nH       -1.90013400       0.00152267      -1.20740881       0.18335168      -0.01440920      -0.03079471\nH       -2.98511377      -0.91700246      -0.01641436      -0.04463599       0.15749010      -0.05964312\nH       -1.88076267       0.78191861       0.19645347       0.15229809       0.09165296      -0.03439742\n6\nProperties=species:S:1:pos:R:3:forces:R:3 energy=-77.72556665 pbc=\"F F F\"\nC       -4.39771858       0.45860842       0.21671469      -0.18157517       0.06046145       0.12863659\nC       -2.94183576       0.05886248      -0.18618871      -0.16016631      -0.22654441       0.03453582\nH       -5.21619155       0.87590954       0.64995253       0.05267007      -0.05730135      -0.03867837\nH       -1.90213722      -0.01348076      -1.20396140       0.18288943      -0.01939740      -0.03194214\nH       -2.98375524      -0.91411336      -0.01203578      -0.04480964       0.15509685      -0.05993060\nH       -1.88642704       0.76985041       0.20208937       0.15099163       0.08768488      -0.03262130"
+  }
+]
